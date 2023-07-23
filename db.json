@@ -1,9 +1,3 @@
 {
-  "expense": [
-    {
-      "id": 1,
-      "amount": 12,
-      "type": ""
-    }
-  ]
+  "expense": []
 }

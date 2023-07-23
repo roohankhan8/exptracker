@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CrudService {
-  serviceURl: string=''
+  serviceURl: string = '';
   constructor(private http: HttpClient) {
     this.serviceURl = 'http://localhost:3000/expense';
   }
@@ -20,6 +20,9 @@ export class CrudService {
   getAll(): Observable<Expense[]> {
     return this.http.get<Expense[]>(this.serviceURl);
   }
+  // totalExp(): Observable<Expense[]> {
+  //   return this.http.get<Expense[]>(this.serviceURl);
+  // }
   editExp(exp: Expense): Observable<Expense> {
     return this.http.put<Expense>(this.serviceURl + '/' + exp.id, exp);
   }

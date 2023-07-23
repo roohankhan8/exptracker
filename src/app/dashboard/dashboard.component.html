@@ -29,7 +29,7 @@
     </div>
     <div class="p-2 m-2 border-2 flex items-center justify-center">
       <h1>Type:</h1>
-      <select [(ngModel)]="selectedType">
+      <select [(ngModel)]="selectedType" name="selectedType">
         <option *ngFor="let type of types" [value]="type">
           {{ type }}
         </option>
@@ -90,13 +90,13 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Edit Task</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Edit Amount</h5>
               <button
                 type="button"
                 class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-              ></button>
+              >X</button>
             </div>
             <div class="modal-body">
               <div class="input-group p-4">
@@ -133,4 +133,3 @@
     </div> -->
   </div>
 </div>
-<h1>Selected: {{selectedType}} </h1>

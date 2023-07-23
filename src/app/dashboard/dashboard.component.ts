@@ -17,11 +17,20 @@ export class DashboardComponent {
   constructor(private crudService: CrudService) {}
 
   types: string[] = ['Food', 'Transportation', 'Others'];
-  selectedType: string = '';
+  selectedType: string = 'Food';
+
+  totalExp() {
+    for (let i = 0; i < this.expenseArr.length; i++) {
+      let val = this.expenseArr[i];
+      this.expTotal += val['amount'];
+      console.log(this.expTotal);
+    }
+  }
 
   ngOnInit() {
     this.addExpAmount = null;
     this.getAll();
+    // this.totalExp()
   }
   getAll() {
     this.crudService.getAll().subscribe(
@@ -39,7 +48,6 @@ export class DashboardComponent {
     this.crudService.addExp(this.expObj).subscribe(
       (res) => {
         this.ngOnInit();
-        this.addExpAmount = null;
       },
       (err) => {
         alert(err);
@@ -49,6 +57,7 @@ export class DashboardComponent {
   deleteExp(exp: Expense) {
     this.crudService.deleteExp(exp).subscribe(
       (res) => {
+        // this.expTotal-=exp.amount
         this.ngOnInit();
       },
       (err) => {
