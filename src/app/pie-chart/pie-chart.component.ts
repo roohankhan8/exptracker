@@ -2,7 +2,6 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { ChartOptions } from 'chart.js';
 import { CrudService } from '../crud.service';
 import { Expense } from '../model/expense';
-import { DashboardComponent } from '../dashboard/dashboard.component';
 
 @Component({
   selector: 'app-pie-chart',
@@ -10,56 +9,62 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
   styleUrls: ['./pie-chart.component.css'],
 })
 export class PieChartComponent {
-  @Output() callParentMethodEvent = new EventEmitter<void>();
-
-  callParentMethod(): void {
-    this.callParentMethodEvent.emit();
-  }
   constructor(private crudService: CrudService) {}
   food: number = 0;
   transportation: number = 0;
   others: number = 0;
-  
   expenseArr: Expense[] = [];
-  
+
   ngOnInit() {
     this.getAll();
-    console.log(this.food, this.transportation, this.others);
   }
-  
-  getAll() {
+
+  public getAll() {
     this.crudService.getAll().subscribe(
       (res) => {
         this.expenseArr = res;
-        this.filtering(this.expenseArr);
+        for (let expense of this.expenseArr){
+          this.adding(expense);
+        }
+        console.log(this.expenseArr)
       },
       (err) => {
         alert(err);
       }
     );
   }
-  filtering(expenseArr: Expense[]) {
-    for (let expense of expenseArr) {
-      if (expense['type'] == 'Food') {
-        this.food += expense.amount;
-      } else if (expense['type'] == 'Transportation') {
-        this.transportation += expense.amount;
-      } else if (expense['type'] == 'Others') {
-        this.others += expense.amount;
-      }
+  adding(expense: Expense) {
+    if (expense['type'] == 'Food') {
+      this.food += expense.amount;
+    } else if (expense['type'] == 'Transportation') {
+      this.transportation += expense.amount;
+    } else if (expense['type'] == 'Others') {
+      this.others += expense.amount;
     }
     console.log(this.food, this.transportation, this.others);
   }
+  // deleting(expenseArr: Expense[]) {
+  //   for (let expense of expenseArr) {
+  //     if (expense['type'] == 'Food') {
+  //       this.food -= expense.amount;
+  //     } else if (expense['type'] == 'Transportation') {
+  //       this.transportation += expense.amount;
+  //     } else if (expense['type'] == 'Others') {
+  //       this.others += expense.amount;
+  //     }
+  //   }
+  // }
 
-  public pieChartOptions: ChartOptions<'pie'> = {
+  pieChartOptions: ChartOptions<'pie'> = {
     responsive: false,
   };
-  public pieChartLabels = ['Food', 'Transportation', 'Others'];
-  public pieChartDatasets = [
+  pieChartLabels = ['Food', 'Transportation', 'Others'];
+  pieChartDatasets = [
     {
       data: [this.food, this.transportation, this.others],
+      // data:[10,20,30]
     },
   ];
-  public pieChartLegend = true;
-  public pieChartPlugins = [];
+  pieChartLegend = true;
+  pieChartPlugins = [];
 }

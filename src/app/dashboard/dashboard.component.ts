@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { CrudService } from '../crud.service';
 import { Expense } from '../model/expense';
 import { PieChartComponent } from '../pie-chart/pie-chart.component';
@@ -15,18 +15,15 @@ export class DashboardComponent {
   editExpAmount: number = 0;
   oldValue: number = 0;
   expTotal: number = 0;
-  parentMethod(): void {
-    console.log('Parent method called!');
-  }
-  
-  @ViewChild(PieChartComponent) pieChartComponent!: PieChartComponent;
 
-  callFunctionInPieChartComponent(): void {
-    this.pieChartComponent.ngOnInit();
-  }
   constructor(
     private crudService: CrudService,
+    private pieChartComponent: PieChartComponent
   ) {}
+
+  public useFunctionFromPieComponent(): void {
+    this.pieChartComponent.getAll();
+  }
 
   types: string[] = ['Food', 'Transportation', 'Others'];
   selectedType: string = 'Food';
@@ -34,7 +31,6 @@ export class DashboardComponent {
   ngOnInit() {
     this.addExpAmount = null;
     this.getAll();
-    this.callFunctionInPieChartComponent()
   }
 
   getAll() {
@@ -54,6 +50,7 @@ export class DashboardComponent {
       (res) => {
         this.totalExp(this.expObj.amount);
         this.ngOnInit();
+        this.useFunctionFromPieComponent();
       },
       (err) => {
         alert(err);
@@ -64,6 +61,7 @@ export class DashboardComponent {
     this.crudService.deleteExp(exp).subscribe(
       (res) => {
         this.ngOnInit();
+        this.useFunctionFromPieComponent();
         this.expTotal -= exp.amount;
       },
       (err) => {
