@@ -1,4 +1,5 @@
 export class Expense {
-    id: number = 0;
-    amount: number = 0
+  id: number = 0;
+  amount: number = 0;
+  type: string = '';
 }

@@ -2,7 +2,8 @@
   "expense": [
     {
       "id": 1,
-      "amount": 30
+      "amount": 12,
+      "type": ""
     }
   ]
 }
