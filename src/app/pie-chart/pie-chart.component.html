@@ -1,12 +1,14 @@
-<div style="display: block">
-  <canvas
-    baseChart
-    width="400"
-    height="400"
-    [type]="'line'"
-    [data]="lineChartData"
-    [options]="lineChartOptions"
-    [legend]="lineChartLegend"
-  >
-  </canvas>
+<canvas baseChart class="border-2"
+  [type]="'pie'"
+  [datasets]="pieChartDatasets"
+  [labels]="pieChartLabels"
+  [options]="pieChartOptions"
+  [plugins]="pieChartPlugins"
+  [legend]="pieChartLegend">
+</canvas>
+<div *ngFor="let exp of expenseArr">
+    <p>{{exp.amount}} {{exp.type}}</p>
 </div>
+<p>{{food}}</p>
+<p>{{transportation}}</p>
+<p>{{others}}</p>

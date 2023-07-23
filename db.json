@@ -1,3 +1,34 @@
 {
-  "expense": []
+  "expense": [
+    {
+      "id": 1,
+      "amount": 15,
+      "type": "Food"
+    },
+    {
+      "id": 2,
+      "amount": 15,
+      "type": "Transportation"
+    },
+    {
+      "id": 3,
+      "amount": 15,
+      "type": "Transportation"
+    },
+    {
+      "id": 4,
+      "amount": 15,
+      "type": "Food"
+    },
+    {
+      "id": 5,
+      "amount": 15,
+      "type": "Food"
+    },
+    {
+      "id": 6,
+      "amount": 15,
+      "type": "Food"
+    }
+  ]
 }

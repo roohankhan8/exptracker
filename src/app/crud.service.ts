@@ -1,29 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Expense } from './model/expense';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CrudService {
-  serviceURl: string = '';
+  serviceURL: string = '';
   constructor(private http: HttpClient) {
-    this.serviceURl = 'http://localhost:3000/expense';
+    this.serviceURL = 'http://localhost:3000/expense';
   }
   addExp(exp: Expense): Observable<Expense> {
-    return this.http.post<Expense>(this.serviceURl, exp);
+    return this.http.post<Expense>(this.serviceURL, exp);
   }
   deleteExp(exp: Expense): Observable<Expense> {
-    return this.http.delete<Expense>(this.serviceURl + '/' + exp.id);
+    return this.http.delete<Expense>(this.serviceURL + '/' + exp.id);
   }
   getAll(): Observable<Expense[]> {
-    return this.http.get<Expense[]>(this.serviceURl);
+    return this.http.get<Expense[]>(this.serviceURL);
   }
-  // totalExp(): Observable<Expense[]> {
-  //   return this.http.get<Expense[]>(this.serviceURl);
-  // }
   editExp(exp: Expense): Observable<Expense> {
-    return this.http.put<Expense>(this.serviceURl + '/' + exp.id, exp);
+    return this.http.put<Expense>(this.serviceURL + '/' + exp.id, exp);
   }
 }

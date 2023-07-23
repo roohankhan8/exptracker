@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CrudService } from '../crud.service';
 import { Expense } from '../model/expense';
+import { PieChartComponent } from '../pie-chart/pie-chart.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,26 +13,30 @@ export class DashboardComponent {
   expenseArr: Expense[] = [];
   addExpAmount: any = null;
   editExpAmount: number = 0;
+  oldValue: number = 0;
   expTotal: number = 0;
+  parentMethod(): void {
+    console.log('Parent method called!');
+  }
+  
+  @ViewChild(PieChartComponent) pieChartComponent!: PieChartComponent;
 
-  constructor(private crudService: CrudService) {}
+  callFunctionInPieChartComponent(): void {
+    this.pieChartComponent.ngOnInit();
+  }
+  constructor(
+    private crudService: CrudService,
+  ) {}
 
   types: string[] = ['Food', 'Transportation', 'Others'];
   selectedType: string = 'Food';
 
-  totalExp() {
-    for (let i = 0; i < this.expenseArr.length; i++) {
-      let val = this.expenseArr[i];
-      this.expTotal += val['amount'];
-      console.log(this.expTotal);
-    }
-  }
-
   ngOnInit() {
     this.addExpAmount = null;
     this.getAll();
-    // this.totalExp()
+    this.callFunctionInPieChartComponent()
   }
+
   getAll() {
     this.crudService.getAll().subscribe(
       (res) => {
@@ -47,6 +52,7 @@ export class DashboardComponent {
     this.expObj.type = this.selectedType;
     this.crudService.addExp(this.expObj).subscribe(
       (res) => {
+        this.totalExp(this.expObj.amount);
         this.ngOnInit();
       },
       (err) => {
@@ -57,19 +63,8 @@ export class DashboardComponent {
   deleteExp(exp: Expense) {
     this.crudService.deleteExp(exp).subscribe(
       (res) => {
-        // this.expTotal-=exp.amount
         this.ngOnInit();
-      },
-      (err) => {
-        alert(err);
-      }
-    );
-  }
-  editExp() {
-    this.expObj.amount = this.editExpAmount;
-    this.crudService.editExp(this.expObj).subscribe(
-      (res) => {
-        this.ngOnInit();
+        this.expTotal -= exp.amount;
       },
       (err) => {
         alert(err);
@@ -79,5 +74,23 @@ export class DashboardComponent {
   call(exp: Expense) {
     this.expObj = exp;
     this.editExpAmount = exp.amount;
+    this.oldValue = exp.amount;
+  }
+  editExp() {
+    this.expTotal -= this.oldValue;
+    this.expObj.amount = this.editExpAmount;
+    this.crudService.editExp(this.expObj).subscribe(
+      (res) => {
+        this.ngOnInit();
+        this.totalExp(this.expObj.amount);
+      },
+      (err) => {
+        alert(err);
+      }
+    );
+  }
+
+  totalExp(exp: number) {
+    this.expTotal += exp;
   }
 }
